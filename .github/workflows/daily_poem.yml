@@ -1,0 +1,62 @@
+name: Daily Pune News Marathi Poem
+
+on:
+  schedule:
+    # 30 2 * * * (UTC) = 08:00 IST every day. GitHub Actions cron always runs
+    # in UTC, and IST is UTC+5:30, so 08:00 IST - 5:30 = 02:30 UTC.
+    - cron: "30 2 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+# Prevent overlapping runs (a manual workflow_dispatch during the scheduled
+# run, for example) from racing to commit/push poems.json at the same time.
+concurrency:
+  group: daily-poem-publish
+  cancel-in-progress: false
+
+jobs:
+  generate-and-publish-poem:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily news -> poem -> poems.json pipeline
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python main.py
+
+      - name: Commit and push updated poems.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add poems.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to poems.json — nothing to commit."
+            exit 0
+          fi
+
+          git commit -m "Add daily poem for $(date -u +'%Y-%m-%d')"
+
+          # Rebase onto the latest remote state before pushing, in case
+          # something else touched main since this job checked out (e.g. a
+          # manual workflow_dispatch run overlapping the schedule).
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

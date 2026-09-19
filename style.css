@@ -1,0 +1,190 @@
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --text: #1f1b16;
+  --text-muted: #6b6155;
+  --accent: #b5541c;
+  --accent-soft: #f3e4d7;
+  --border: #e8e0d5;
+  --shadow: 0 1px 3px rgba(31, 27, 22, 0.08), 0 1px 2px rgba(31, 27, 22, 0.06);
+  --radius: 12px;
+  --font-mr-serif: 'Tiro Devanagari Marathi', 'Noto Sans Devanagari', serif;
+  --font-mr-sans: 'Noto Sans Devanagari', sans-serif;
+  --font-ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161310;
+    --surface: #201c17;
+    --text: #f1ece4;
+    --text-muted: #a89d8d;
+    --accent: #e08a4f;
+    --accent-soft: #3a2a1c;
+    --border: #322b23;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mr-sans);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.site-header {
+  padding: 48px 0 32px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-title {
+  font-family: var(--font-mr-serif);
+  font-size: 2.4rem;
+  margin: 0 0 12px;
+  color: var(--accent);
+}
+
+.site-subtitle {
+  margin: 4px 0;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.site-subtitle-en {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-family: var(--font-ui);
+}
+
+.site-stats {
+  margin: 16px 0 0;
+  font-size: 0.8rem;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+main.container {
+  padding: 40px 20px 80px;
+}
+
+.status {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.poem-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 28px 24px;
+}
+
+.poem-card__date {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+  font-family: var(--font-ui);
+}
+
+.poem-card__poem {
+  font-family: var(--font-mr-serif);
+  font-size: 1.25rem;
+  white-space: pre-line;
+  margin: 0 0 20px;
+}
+
+.poem-card__headlines {
+  border-top: 1px dashed var(--border);
+  padding-top: 16px;
+  margin: 0;
+}
+
+.poem-card__headlines-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+  font-family: var(--font-ui);
+}
+
+.poem-card__headlines ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.poem-card__headlines li {
+  font-size: 0.92rem;
+}
+
+.poem-card__headlines a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.poem-card__headlines a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 0 48px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-family: var(--font-ui);
+}
+
+@media (max-width: 480px) {
+  .site-title {
+    font-size: 1.9rem;
+  }
+
+  .poem-card {
+    padding: 20px 18px;
+  }
+
+  .poem-card__poem {
+    font-size: 1.1rem;
+  }
+}
